@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="./pinterest.css"> -->
+    <title>Pinterest</title>
+    <link rel="icon" href="./images/pinterest (1).png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: transparent;
+            font-family: sans-serif;
+        }
+
+        .nav {
+            height: 80px;
+            /* width: 100vw; */
+            /* color: red; */
+            padding: 4px 16px;
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            position: fixed;
+            z-index: 2;
+            top: 0px;
+        }
+
+        .nav-container {
+            height: 56px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        /* flex property for all nav element */
+        .flexx {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* logo */
+        .logo {
+            height: 48px;
+            width: 48px;
+
+        }
+
+        .logo a img {
+            height: 24px;
+            width: 24px;
+        }
+
+        /* home */
+        .home {
+            width: 76px;
+            height: 48px;
+            background-color: #111;
+            border-radius: 24px;
+
+        }
+
+        .home a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* explore */
+        .explore {
+            height: 48px;
+            width: 86px;
+
+        }
+
+        .explore a {
+            text-decoration: none;
+            color: #111;
+        }
+
+        /* create */
+        .create {
+            height: 48px;
+            width: 98px;
+        }
+
+        .create a {
+            color: #111;
+            text-decoration: none;
+        }
+
+        /* search-bar */
+        .searchbar {
+            width: 1020px;
+            height: 48px;
+            background-color: #F5F5F5;
+            display: flex;
+            align-items: center;
+            justify-content: left;
+            padding-left: 16px;
+            border-radius: 25px;
+            color: #827b7b;
+            /* font-weight: 700; */
+        }
+
+        .searchbar:hover {
+            background-color: #bab3b381;
+        }
+
+        .searchbar i {
+            margin-right: 6px;
+        }
+
+        /* button-container  */
+        .button-container {
+            height: 48px;
+            width: 165px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #767676;
+
+        }
+
+        .notification {
+            height: 48px;
+            width: 48px;
+        }
+
+        .notification i {
+            font-size: 1.5rem;
+        }
+
+        .msg {
+            height: 48px;
+            width: 48px;
+        }
+
+        .msg i {
+            font-size: 1.1rem;
+        }
+
+        .profile {
+            height: 48px;
+            width: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-content {
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background-color: #bab3b381;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #211922;
+            font-size: 0.6rem;
+            font-weight: 700;
+        }
+
+        .profile-content:hover {
+            height: 48px;
+            width: 48px;
+            border-radius: 50%;
+        }
+
+        .account {
+            height: 48px;
+            width: 24px;
+        }
+
+        .account select {
+            border: none;
+            color: #211922;
+            font-weight: 700;
+            background-color: #fff;
+
+        }
+
+        .account select:hover {
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background-color: #bab3b381;
+        }
+
+        .hovering:hover {
+            background-color: #bab3b381;
+            border-radius: 50%;
+        }
+
+        /* *****************card-caontainer******************* */
+        .card-container {
+            /* margin-top: 80px;  */
+            margin: 80px 8px 0px 8px;
+            columns: 6;
+            column-gap: 16px;
+        }
+
+        .card {
+            position: relative;
+            top: 0;
+            /* z-index: -1; */
+            cursor: zoom-in;
+            width: 100%;
+            margin-bottom: 16px;
+
+        }
+
+        .card img,
+        video {
+            max-width: 100%;
+            border-radius: 18px;
+            height: auto;
+            border: 0;
+
+        }
+
+        /* *****************Hovering content for card-container******************* */
+        .overlay {
+            position: absolute;
+            width: 100%;
+            height: 99%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            border-radius: 18px;
+            transition: opacity .4s ease-in-out;
+            background-color: rgba(0, 0, 0, .5);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 12px;
+            /* align-items: center; */
+        }
+
+        .overlay-top {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .overlay-top-left {
+            color: #fff;
+        }
+
+        .overlay-top-left p {
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .overlay-top-left select {
+            color: #fff;
+            border: none;
+            margin-bottom: 4px;
+            cursor: pointer;
+
+        }
+
+        .overlay-top-right {
+            width: 68px;
+            height: 47px;
+            background-color: rgb(240, 33, 58);
+            border-radius: 24px;
+            cursor: pointer;
+
+        }
+
+        .overlay-top-right button {
+            border: none;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+
+        }
+
+        .overlay-bottom {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .overlay-bottom-share,
+        .overlay-bottom-ellipsis {
+            height: 30px;
+            width: 30px;
+            border-radius: 50%;
+            background-color: #fff;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .card:hover .overlay {
+            opacity: 1;
+            /* border-radius: 18px; */
+        }
+
+        /* *****************footer******************* */
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background-color: #fff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border-width: 1px solid #ede8e8;
+            box-shadow: 0 0 8px rgba(0, 0, 0, .3);
+        }
+
+        .footer button {
+            border: 0px;
+            cursor: pointer;
+
+        }
+
+        /* .footer button i{
+    font-size: 1.4rem;
+} */
+    </style>
+</head>
+
+<body>
+
+    <div class="nav">
+        <div class="nav-container">
+            <div class="logo flexx hovering">
+                <a href="#"><img src="./images/pinterest (1).png" alt="pinterest-logo"></a>
+            </div>
+            <div class="home flexx">
+                <a href="#">Home</a>
+            </div>
+            <div class="explore flexx">
+                <a href="#">Explore</a>
+            </div>
+            <div class="create flexx">
+                <a href="#">Create</a>
+
+            </div>
+            <div class="searchbar flexx">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <span>Search</span>
+            </div>
+            <div class="button-container flexx ">
+                <div class="notification flexx hovering">
+                    <i class="fa-solid fa-bell"></i>
+                </div>
+                <div class="msg flexx hovering">
+                    <i class="fa-solid fa-message"></i>
+                </div>
+                <div class="profile flexx ">
+                    <div class="profile-content">M</div>
+                </div>
+                <div class="account flexx ">
+                    <select name="" id=""></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-container">
+        <div class="card">
+            <img src="./images/img1.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <video src="./images/vid1.mp4" muted autoplay loop></video>
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img2.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img3.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="./images/img5.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img4.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img6.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img7.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img8.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img9.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img10.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img11.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img12.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img13.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img14.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img15.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img16.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img17.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img18.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img19.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img20.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img21.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img22.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img23.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./images/img24.jpeg" alt="">
+            <div class="overlay">
+                <div class="overlay-top">
+                    <div class="overlay-top-left flexx">
+                        <p>Profile</p>
+                        <select name="" id=""></select>
+                    </div>
+                    <div class="overlay-top-right flexx">
+                        <button>Save</button>
+                    </div>
+                </div>
+                <div class="overlay-bottom">
+                    <div class="overlay-bottom-share flexx">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    </div>
+                    <div class="overlay-bottom-ellipsis flexx">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <button>
+            <i class="fa-solid fa-question fa-2xl"></i></i>
+        </button>
+    </div>
+
+</body>
+
+</html>
